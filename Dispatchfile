@@ -11,7 +11,7 @@ resource "docker-image": {
 }
 
 task "build": {
-  inputs: ["src-git"]
+  inputs: ["gitops-git"]
   outputs: ["docker-image"]
   deps: ["test"]
 
@@ -38,7 +38,7 @@ task "deploy": {
       workingDir: "/workspace/gitops-git"
       args: [
         "-git-revision=$(context.git.commit)",
-        "-substitute=imageName=your-dockerhub-user/hello-world@$(inputs.resources.docker-image.digest)",
+        "-substitute=imageName=arvindbhoj/hello-world@$(inputs.resources.docker-image.digest)",
         "-scm-provider=github"
       ]
     }
@@ -46,7 +46,7 @@ task "deploy": {
 }
 
 task "test": {
-  inputs: ["src-git"]
+  inputs: ["gitops-git"]
   steps: [
     {
       name: "test"
